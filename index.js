@@ -94,25 +94,7 @@ app.get('/api/download-tiktok', async (req, res) => {
   }
 });
 
-async function downloadTikTok(url) {
-  try {
-    const response = await axios.post("https://ttsave.app/download", null, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      params: {
-        url: url
-      }
-    });
 
-    // Asumsikan bahwa respons berisi data JSON dengan link download
-    const downloadLink = response.data.download_link; // Sesuaikan berdasarkan struktur respons sebenarnya
-
-    return downloadLink;
-  } catch (error) {
-    throw error;
-  }
-}
 
 // Endpoint untuk smartContract
 app.get('/api/smartcontract', async (req, res) => {
