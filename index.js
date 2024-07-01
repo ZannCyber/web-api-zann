@@ -2,8 +2,8 @@ var express = require("express"), cors = require("cors"), secure = require("ssl-
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const ptz = require('./function/index') 
-const axios = require('axios')
+const ptz = require('./function/index');
+const axios = require('axios');
 
 var app = express();
 app.enable("trust proxy");
@@ -38,7 +38,7 @@ app.get('/stats', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname,  'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/api/ragbot', async (req, res) => {
@@ -61,7 +61,7 @@ app.get('/api/ragbot', async (req, res) => {
 // Endpoint untuk degreeGuru
 app.get('/api/degreeguru', async (req, res) => {
   try {
-    const { message }= req.query;
+    const { message } = req.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
     }
@@ -75,6 +75,44 @@ app.get('/api/degreeguru', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// Endpoint untuk download TikTok video
+app.get('/api/download-tiktok', async (req, res) => {
+  try {
+    const url = req.query.url;
+    if (!url) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+    const downloadLink = await downloadTikTok(url);
+    res.status(200).json({
+      status: 200,
+      creator: "Zannmods",
+      data: { downloadLink }
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+async function downloadTikTok(url) {
+  try {
+    const response = await axios.post("https://ttsave.app/download", null, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      params: {
+        url: url
+      }
+    });
+
+    // Asumsikan bahwa respons berisi data JSON dengan link download
+    const downloadLink = response.data.download_link; // Sesuaikan berdasarkan struktur respons sebenarnya
+
+    return downloadLink;
+  } catch (error) {
+    throw error;
+  }
+}
 
 // Endpoint untuk smartContract
 app.get('/api/smartcontract', async (req, res) => {
@@ -113,39 +151,38 @@ app.get('/api/blackboxAIChat', async (req, res) => {
 });
 
 app.get("/api/gpt", async (req, res) => {
-const text = req.query.text;
+  const text = req.query.text;
 
-if (!text) {
-return res.status(400).send("Parameter 'text' is required.");
-}
+  if (!text) {
+    return res.status(400).send("Parameter 'text' is required.");
+  }
 
-try {
-const requestData = {
-operation: "chatExecute",
-params: {
-text: text,
-languageId: "6094f9b4addddd000c04c94b",
-toneId: "60572a649bdd4272b8fe358c",
-voiceId: ""
-}
-};
+  try {
+    const requestData = {
+      operation: "chatExecute",
+      params: {
+        text: text,
+        languageId: "6094f9b4addddd000c04c94b",
+        toneId: "60572a649bdd4272b8fe358c",
+        voiceId: ""
+      }
+    };
 
-const config = {
-headers: {
-Accept: "application/json, text/plain, */*",
-Authentication: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTZjMjFhMGE1NTNiNjE1MDhmNWIxOSIsImlhdCI6MTcxMjc2NzUxNH0.qseE0iNl-4bZrpQoB-zxVsc-pz13l3JOKkg4u6Y08OY",
-"Content-Type": "application/json"
-}
-};
-let {data} = await axios.post("https://api.rytr.me/", requestData, config)
-data.data.content = data.data.content.replace(/<\/?p[^>]*>/g, '');
-res.json(data);
-} catch (error) {
-console.error(error);
-res.status(500).send("Internal Server Error");
-}
+    const config = {
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        Authentication: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTZjMjFhMGE1NTNiNjE1MDhmNWIxOSIsImlhdCI6MTcxMjc2NzUxNH0.qseE0iNl-4bZrpQoB-zxVsc-pz13l3JOKkg4u6Y08OY",
+        "Content-Type": "application/json"
+      }
+    };
+    let { data } = await axios.post("https://api.rytr.me/", requestData, config);
+    data.data.content = data.data.content.replace(/<\/?p[^>]*>/g, '');
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
-
 
 app.use((req, res, next) => {
   res.status(404).send("Halaman tidak ditemukan");
