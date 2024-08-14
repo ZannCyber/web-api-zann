@@ -4,6 +4,7 @@ const os = require('os');
 const fs = require('fs');
 const ptz = require('./function/index') 
 const axios = require('axios')
+const cheerio = require('cheerio');
 
 var app = express();
 app.enable("trust proxy");
@@ -76,6 +77,27 @@ app.get('/api/degreeguru', async (req, res) => {
   }
 });
 
+//endpoint tiktok v2
+
+
+async function tiktokDownloader(url) {
+app.get('/api/tiktokdownloader', async (req, res) => {
+  try {
+    const url = req.query.url;
+    if (!url) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+
+    const data = await tiktokDownloader(url);
+    res.status(200).json({
+      status: 200,
+      creator: "zannmods",
+      data
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 // Endpoint untuk smartContract
 app.get('/api/smartcontract', async (req, res) => {
   try {
