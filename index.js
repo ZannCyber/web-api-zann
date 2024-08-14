@@ -2,9 +2,9 @@ var express = require("express"), cors = require("cors"), secure = require("ssl-
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const ptz = require('./function/index') 
+const ptz = require('./function/index');
 const tiktokDownloader = require('./function/scraper/tiktokDownloader');
-const axios = require('axios')
+const axios = require('axios');
 const cheerio = require('cheerio');
 
 var app = express();
@@ -13,7 +13,7 @@ app.set("json spaces", 2);
 app.use(cors());
 app.use(secure);
 app.use(express.static(path.join(__dirname, 'public')));
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.get('/stats', (req, res) => {
   const stats = {
@@ -40,7 +40,7 @@ app.get('/stats', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname,  'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/api/ragbot', async (req, res) => {
@@ -63,7 +63,7 @@ app.get('/api/ragbot', async (req, res) => {
 // Endpoint untuk degreeGuru
 app.get('/api/degreeguru', async (req, res) => {
   try {
-    const { message }= req.query;
+    const { message } = req.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
     }
@@ -78,10 +78,7 @@ app.get('/api/degreeguru', async (req, res) => {
   }
 });
 
-//endpoint tiktok v2
-
-
-async function tiktokDownloader(url) {
+// Endpoint TikTok Downloader
 app.get('/api/tiktokdownloader', async (req, res) => {
   try {
     const url = req.query.url;
@@ -99,6 +96,7 @@ app.get('/api/tiktokdownloader', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 // Endpoint untuk smartContract
 app.get('/api/smartcontract', async (req, res) => {
   try {
@@ -135,40 +133,40 @@ app.get('/api/blackboxAIChat', async (req, res) => {
   }
 });
 
+// Endpoint GPT
 app.get("/api/gpt", async (req, res) => {
-const text = req.query.text;
+  const text = req.query.text;
 
-if (!text) {
-return res.status(400).send("Parameter 'text' is required.");
-}
+  if (!text) {
+    return res.status(400).send("Parameter 'text' is required.");
+  }
 
-try {
-const requestData = {
-operation: "chatExecute",
-params: {
-text: text,
-languageId: "6094f9b4addddd000c04c94b",
-toneId: "60572a649bdd4272b8fe358c",
-voiceId: ""
-}
-};
+  try {
+    const requestData = {
+      operation: "chatExecute",
+      params: {
+        text: text,
+        languageId: "6094f9b4addddd000c04c94b",
+        toneId: "60572a649bdd4272b8fe358c",
+        voiceId: ""
+      }
+    };
 
-const config = {
-headers: {
-Accept: "application/json, text/plain, */*",
-Authentication: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTZjMjFhMGE1NTNiNjE1MDhmNWIxOSIsImlhdCI6MTcxMjc2NzUxNH0.qseE0iNl-4bZrpQoB-zxVsc-pz13l3JOKkg4u6Y08OY",
-"Content-Type": "application/json"
-}
-};
-let {data} = await axios.post("https://api.rytr.me/", requestData, config)
-data.data.content = data.data.content.replace(/<\/?p[^>]*>/g, '');
-res.json(data);
-} catch (error) {
-console.error(error);
-res.status(500).send("Internal Server Error");
-}
+    const config = {
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        Authentication: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTZjMjFhMGE1NTNiNjE1MDhmNWIxOSIsImlhdCI6MTcxMjc2NzUxNH0.qseE0iNl-4bZrpQoB-zxVsc-pz13l3JOKkg4u6Y08OY",
+        "Content-Type": "application/json"
+      }
+    };
+    let { data } = await axios.post("https://api.rytr.me/", requestData, config);
+    data.data.content = data.data.content.replace(/<\/?p[^>]*>/g, '');
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
-
 
 app.use((req, res, next) => {
   res.status(404).send("Halaman tidak ditemukan");
