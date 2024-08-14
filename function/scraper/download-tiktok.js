@@ -18,11 +18,12 @@ async function downloadTikTok(url) {
       }
     });
 
-    // Assuming the response contains JSON data with the download link
-    const downloadLink = response.data.download_link; // Adjust based on the actual response structure
+    // Sesuaikan dengan struktur data yang diterima dari API
+    const downloadLink = response.data.downloadUrl; // Gantilah dengan key yang tepat dari response
 
     return downloadLink;
   } catch (error) {
+    console.error('Error fetching download link:', error.message);
     throw error;
   }
 }
