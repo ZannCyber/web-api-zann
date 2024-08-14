@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 
 async function tiktokDownloader(url) {
   try {
-    const response = await axios.get(`https://ttsave.app/download?url=${encodeURIComponent(url)}`);
+    const response = await axios.get(`https://ttsave.app/download`);
     const $ = cheerio.load(response.data);
 
     // Menyimpan hasil parsing HTML untuk menemukan link unduhan
