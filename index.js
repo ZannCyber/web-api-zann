@@ -3,6 +3,7 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 const ptz = require('./function/index') 
+const tiktokDownloader = require('./function/scraper/tiktokDownloader');
 const axios = require('axios')
 const cheerio = require('cheerio');
 
