@@ -114,7 +114,15 @@ app.get('/api/smartcontract', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
+//GEMPA INFORMASI 
+app.get('/api/gempa', async (req, res) => {
+  try {
+    const result = await Gempa();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 // Endpoint untuk blackboxAIChat
 app.get('/api/blackboxAIChat', async (req, res) => {
   try {
