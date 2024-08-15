@@ -3,6 +3,7 @@ module.exports = {
     smartContract: require('./scraper/smartContract'),
     ragBot: require('./scraper/ragBot'),
     tiktokDownloader: require('./scraper/tiktokDownloader'),
-    Gempa: require('./scraper/Gempa'),  // Tambahkan fungsi baru
+    Gempa: require('./scraper/Gempa'),  
+    ytdl: require('./scraper/ytdl'),// Tambahkan fungsi baru
     
 };
