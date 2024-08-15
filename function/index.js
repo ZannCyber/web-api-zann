@@ -5,6 +5,7 @@ module.exports = {
     tiktokDownloader: require('./scraper/tiktokDownloader'),
     Gempa: require('./scraper/Gempa'),  
     ytdl: require('./scraper/ytdl'),
-    tiktokScraper: require('./scraper/tiktokScraper'),// Tambahkan fungsi baru
+    tiktokScraper: require('./scraper/tiktokScraper'),
+    download: require('./scraper/download'),// Tambahkan fungsi baru
     
 };
