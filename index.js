@@ -61,6 +61,27 @@ app.get('/api/ragbot', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+app.get('/api/tiktok', async (req, res) => {
+  const url = req.query.url;
+  
+  if (!url) {
+    return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+  }
+
+  try {
+    const videoUrl = await tiktokDownloader(url);
+
+    res.status(200).json({
+      status: 200,
+      creator: "zannmods",
+      data: {
+        video_url: videoUrl,
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // Endpoint untuk degreeGuru
 app.get('/api/degreeguru', async (req, res) => {
