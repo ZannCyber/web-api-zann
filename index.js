@@ -100,6 +100,21 @@ app.get('/api/degreeguru', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+// Route untuk mengunduh video
+app.get('/download', async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).send('URL TikTok diperlukan');
+  }
+
+  try {
+    const videoUrl = await downloadTikTokVideo(url);
+    res.json({ videoUrl });
+  } catch (error) {
+    res.status(500).send('Terjadi kesalahan saat mengunduh video');
+  }
+});
 
 // Endpoint TikTok Downloader
 app.get('/api/tiktokdownloader', async (req, res) => {
