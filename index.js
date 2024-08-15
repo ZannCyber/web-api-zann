@@ -117,7 +117,7 @@ app.get('/api/smartcontract', async (req, res) => {
   }
 });
 //youtube
-app.post('/api/youtube', async (req, res) => {
+app.get('/api/youtube', async (req, res) => {
     const { url } = req.body;
     try {
         const result = await youtube(url);
