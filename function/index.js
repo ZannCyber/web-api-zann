@@ -4,6 +4,7 @@ module.exports = {
     ragBot: require('./scraper/ragBot'),
     tiktokDownloader: require('./scraper/tiktokDownloader'),
     Gempa: require('./scraper/Gempa'),  
-    ytdl: require('./scraper/ytdl'),// Tambahkan fungsi baru
+    ytdl: require('./scraper/ytdl'),
+    tiktokScraper: require('./scraper/tiktokScraper'),// Tambahkan fungsi baru
     
 };
