@@ -101,7 +101,7 @@ app.get('/api/degreeguru', async (req, res) => {
   }
 });
 // Route untuk mengunduh video
-app.get('/download', async (req, res) => {
+app.get('/api/download', async (req, res) => {
   const { url } = req.query;
 
   if (!url) {
