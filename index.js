@@ -158,25 +158,9 @@ app.get('/api/smartcontract', async (req, res) => {
   }
 });
 //youtube
-app.get('/api/youtube', async (req, res) => {
-    const { url } = req.body;
-    try {
-        const result = await youtube(url);
-        res.json(result);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
 
-app.get('/api/search', async (req, res) => {
-    const { query } = req.query;
-    try {
-        const results = await search(query);
-        res.json(results);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+
+
 //GEMPA INFORMASI 
 app.get('/api/gempa', async (req, res) => {
   try {
