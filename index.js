@@ -56,7 +56,7 @@ app.get('/api/ragbot', async (req, res) => {
     const response = await ptz.ragBot(message);
     res.status(200).json({
       status: 200,
-      creator: "siputzx",
+      creator: "Zannmods",
       data: { response }
     });
   } catch (error) {
