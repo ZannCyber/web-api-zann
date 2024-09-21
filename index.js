@@ -102,24 +102,7 @@ app.get('/api/degreeguru', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-// Route untuk mengunduh video
-app.get('/api/ytdlv3', async (req, res) => {
-  const query = req.query.q;
-  if (!query) {
-    return res.status(400).send('Query parameter "q" is required');
-  }
-  try {
-    const data = await youtubev3(query);
-    // Memodifikasi hasil dengan tambahan nama "zannmods"
-    const result = {
-      ...data,
-      message: 'Hasil pencarian ini dibawa kepada Anda oleh zannmods!',
-    };
-    res.json(result);
-  } catch (e) {
-    res.status(500).send('Terjadi kesalahan. Cobalah lagi nanti.');
-  }
-});
+
 
 // Endpoint TikTok Downloader
 app.get('/api/tiktokdownloader', async (req, res) => {
