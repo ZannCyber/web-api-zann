@@ -142,20 +142,7 @@ app.get('/api/smartcontract', async (req, res) => {
 });
 //youtube
 
-app.get('/api/capcut', async (req, res) => {
-  const { videoUrl } = req.query; // Mengambil URL dari query string
 
-  if (!videoUrl) {
-    return res.status(400).json({ success: false, message: 'URL video tidak diberikan' });
-  }
-
-  try {
-    const videoData = await downloadCapCutVideo(videoUrl);
-    res.json({ success: true, video: videoData });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
   
 
 //GEMPA INFORMASI 
