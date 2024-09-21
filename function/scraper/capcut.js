@@ -15,3 +15,6 @@ async function downloadCapCutVideo(url) {
     throw new Error(`Gagal mendownload video: ${error.message}`);
   }
         }
+
+
+module.exports = capcut;
